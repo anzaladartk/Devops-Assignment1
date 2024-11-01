@@ -2,7 +2,7 @@ pipeline {
     agent any 
 
     environment {
-        SONARQUBE_SERVER = 'http://localhost:9000'
+        SONARQUBE_SERVER = 'http://sonarqube:9000'
         DOCKER_IMAGE = 'my-app-image:latest'
     }
 
