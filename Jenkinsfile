@@ -29,7 +29,7 @@ pipeline {
             steps {
                 script {
                     def scannerHome = tool 'sonarscanner'
-                    withCredentials([string(credentialsId: 'jenkin-sonar-token', variable: 'jenkin-sonar-token')]) {
+                    withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
                         sh "${scannerHome}/bin/sonar-scanner -X -Dsonar.projectKey=devops-sonarqube -Dsonar.sources=. -Dsonar.host.url=${SONARQUBE_SERVER} -Dsonar.login=${SONAR_TOKEN}"
                     }
                 }
