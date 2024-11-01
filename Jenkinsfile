@@ -4,6 +4,7 @@ pipeline {
     environment {
         SONARQUBE_SERVER = 'http://sonarqube:9000'
         DOCKER_IMAGE = 'my-app-image:latest'
+        SONAR_TOKEN = 'squ_f2b514353e7e1a1f8683e4aef62757d012ea00ec'
     }
 
     stages {
@@ -13,27 +14,29 @@ pipeline {
             }
         }
 
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         script {
+        //             def scannerHome = tool 'sonarscanner'
+        //             withSonarQubeEnv('Sonarqube') {
+        //                 sh "${scannerHome}/bin/sonar-scanner -X -Dsonar.projectKey=devops-sonarqube -Dsonar.sources=. "
+        //             }
+        //         }
+        //     }
+        // }
+
         stage('SonarQube Analysis') {
             steps {
                 script {
                     def scannerHome = tool 'sonarscanner'
-                    withSonarQubeEnv('Sonarqube') {
-                        sh "${scannerHome}/bin/sonar-scanner -X -Dsonar.projectKey=devops-sonarqube -Dsonar.sources=. "
+                    withCredentials([string(credentialsId: 'jenkin-sonar-token', variable: 'jenkin-sonar-token')]) {
+                        sh "${scannerHome}/bin/sonar-scanner -X -Dsonar.projectKey=devops-sonarqube -Dsonar.sources=. -Dsonar.host.url=${SONARQUBE_SERVER} -Dsonar.login=${SONAR_TOKEN}"
                     }
                 }
             }
         }
 
-        //  stage('SonarQube Analysis') {
-        //     steps {
-        //         script {
-        //             def scannerHome = tool 'sonarscanner'
-        //             withEnv(["PATH+SONAR=${scannerHome}/bin"]) {
-        //                 sh 'sonar-scanner -Dsonar.projectKey=devops-sonarqube -Dsonar.sources=.'
-        //             }
-        //         }
-        //     }
-        // }
+       
 
         stage('Build Docker Image') {
             steps {
