@@ -13,27 +13,27 @@ pipeline {
             }
         }
 
-        // stage('SonarQube Analysis') {
-        //     steps {
-        //         script {
-        //             def scannerHome = tool 'sonarscanner'
-        //             withSonarQubeEnv('Sonarqube') {
-        //                 sh "${scannerHome}/bin/sonar-scanner -X -Dsonar.projectKey=devops-sonarqube -Dsonar.sources=."
-        //             }
-        //         }
-        //     }
-        // }
-
-         stage('SonarQube Analysis') {
+        stage('SonarQube Analysis') {
             steps {
                 script {
                     def scannerHome = tool 'sonarscanner'
-                    withEnv(["PATH+SONAR=${scannerHome}/bin"]) {
-                        sh 'sonar-scanner -Dsonar.projectKey=devops-sonarqube -Dsonar.sources=.'
+                    withSonarQubeEnv('Sonarqube') {
+                        sh "${scannerHome}/bin/sonar-scanner -X -Dsonar.projectKey=devops-sonarqube -Dsonar.sources=."
                     }
                 }
             }
         }
+
+        //  stage('SonarQube Analysis') {
+        //     steps {
+        //         script {
+        //             def scannerHome = tool 'sonarscanner'
+        //             withEnv(["PATH+SONAR=${scannerHome}/bin"]) {
+        //                 sh 'sonar-scanner -Dsonar.projectKey=devops-sonarqube -Dsonar.sources=.'
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Build Docker Image') {
             steps {
