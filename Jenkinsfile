@@ -61,7 +61,7 @@ pipeline {
     environment {
         SONARQUBE_SERVER = 'http://localhost:9000'
         DOCKER_IMAGE = 'my-app-image:latest'
-        SONAR_TOKEN = 'your_sonar_token_here' // Store your SonarQube token securely
+        SONAR_TOKEN = 'squ_f2b514353e7e1a1f8683e4aef62757d012ea00ec' // Store your SonarQube token securely
     }
 
     stages {
